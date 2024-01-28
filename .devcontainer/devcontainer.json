@@ -1,0 +1,27 @@
+{
+    "name": "Setup elixir",
+    "build":  {"dockerfile": "Dockerfile"},
+    "features": {},
+
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "[elixir]": {
+                    "editor.insertSpaces": true,
+                    "editor.tabSize": 2,
+                    "editor.wordBasedSuggestions": "off",
+                    "editor.formatOnType": true,
+                    "editor.trimAutoWhitespace": false,
+                    "editor.snippetSuggestions": "inline",
+                    "files.trimTrailingWhitespace": true,
+                    "files.insertFinalNewline": true,
+                    "files.trimFinalNewlines": true
+                },
+                "editor.fontSize": 18
+            },
+            "extensions": [
+                "jakebecker.elixir-ls"
+            ]
+        }
+    }
+}
