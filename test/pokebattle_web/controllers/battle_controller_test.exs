@@ -61,4 +61,31 @@ defmodule PokebattleWeb.BattleControllerTest do
     assert is_list(resp_body)
     assert length(resp_body) > 0
   end
+
+  describe "GET /api/battle/id" do
+    test "with valid id", %{conn: conn} do
+      request_body = %{
+        pokemon1: "ditto",
+        pokemon2: "bulbasaur",
+        extra_info: false,
+      }
+      conn = post(conn, ~p"/api/battle", request_body)
+      {:ok, post_resp_body} = Jason.decode(conn.resp_body)
+
+      conn = get(conn, ~p"/api/battle/#{Map.get(post_resp_body, "id")}")
+      {:ok, resp_body} = Jason.decode(conn.resp_body)
+
+      assert conn.status == 200
+      assert is_map(resp_body)
+      assert Map.get(resp_body, "id") == Map.get(post_resp_body, "id")
+      assert Map.get(resp_body, "pokemon1") == request_body.pokemon1
+      assert Map.get(resp_body, "pokemon2") == request_body.pokemon2
+    end
+  end
+
+  test "with invalid id", %{conn: conn} do
+      conn = get(conn, ~p"/api/battle/300")
+
+      assert conn.status == 404
+  end
 end

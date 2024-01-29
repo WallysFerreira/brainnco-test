@@ -1,5 +1,6 @@
 defmodule PokebattleWeb.BattleController do
   use PokebattleWeb, :controller
+  import Ecto.Query
 
   def create(conn, params) do
     case Enum.empty?(params) do
@@ -46,5 +47,17 @@ defmodule PokebattleWeb.BattleController do
       end)
 
     json conn, battles
+  end
+
+  def show(conn, %{"id" => id}) do
+    found_battle = Pokebattle.Repo.one(from b in Pokebattle.Battle, where: b.id == ^id)
+
+    if found_battle == nil do
+      conn
+      |> resp(404, "Not found")
+      |> send_resp()
+    else
+      json conn, found_battle
+    end
   end
 end
