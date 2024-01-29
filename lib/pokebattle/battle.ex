@@ -2,6 +2,7 @@ defmodule Pokebattle.Battle do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:id, :pokemon1, :pokemon2, :winner]}
   schema "battles" do
     field :pokemon1, :string
     field :pokemon2, :string
