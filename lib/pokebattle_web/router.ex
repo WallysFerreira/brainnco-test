@@ -9,7 +9,7 @@ defmodule PokebattleWeb.Router do
     pipe_through :api
 
     post "/battle", BattleController, :create
-    get "/battle", BattleController, :index
+    resources "/battle", BattleController, only: [:create, :index, :show]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
