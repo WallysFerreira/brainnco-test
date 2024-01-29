@@ -4,7 +4,7 @@ defmodule PokebattleWeb.BattleController do
 
   def create(conn, params) do
     case Enum.empty?(params) do
-      true ->  put_status(conn, 400)
+      true ->  conn |> resp(400, "no body sent") |> send_resp()
       false ->
         p1 =
           params
@@ -20,7 +20,9 @@ defmodule PokebattleWeb.BattleController do
           |> Enum.all?()
 
         if !valid? do
-          put_status(conn, 400)
+          conn
+          |> resp(400, "invalid pokemon name")
+          |> send_resp()
         else
           {:ok, battle} =
             Pokebattle.Repo.insert(%Pokebattle.Battle{
