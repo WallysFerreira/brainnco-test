@@ -9,6 +9,18 @@ defmodule PokebattleWeb.BattleControllerTest do
       assert conn.resp_body == nil
     end
 
+    test "with inexistent pokemon", %{conn: conn} do
+      request_body = %{
+        pokemon1: "invalid",
+        pokemon2: "pikachu",
+        extra_info: false,
+      }
+
+      conn = post(conn, ~p"/api/battle", request_body)
+
+      assert conn.status == 400
+    end
+
     test "without extra info", %{conn: conn} do
       request_body = %{
         pokemon1: "ditto",

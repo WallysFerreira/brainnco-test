@@ -14,26 +14,35 @@ defmodule PokebattleWeb.BattleController do
           params
           |> Map.get("pokemon2")
 
-        {:ok, battle} =
-          Pokebattle.Repo.insert(%Pokebattle.Battle{
-            pokemon1: p1,
-            pokemon2: p2,
-            winner: Pokebattle.Battle.get_winner(p1, p2)
-          })
+        valid? =
+          [p1, p2]
+          |> Enum.map(&Pokebattle.Battle.validate_pokemon/1)
+          |> Enum.all?()
 
-        battle = if params |> Map.get("extra_info") do
-          battle
-          |> Map.update!(:pokemon1, fn pokemon_name ->
-            Pokebattle.Battle.get_pokemon_info(pokemon_name)
-          end)
-          |> Map.update!(:pokemon2, fn pokemon_name ->
-            Pokebattle.Battle.get_pokemon_info(pokemon_name)
-          end)
+        if !valid? do
+          put_status(conn, 400)
         else
-          battle
-        end
+          {:ok, battle} =
+            Pokebattle.Repo.insert(%Pokebattle.Battle{
+              pokemon1: p1,
+              pokemon2: p2,
+              winner: Pokebattle.Battle.get_winner(p1, p2)
+            })
 
-        json conn, battle
+          battle = if params |> Map.get("extra_info") do
+            battle
+            |> Map.update!(:pokemon1, fn pokemon_name ->
+              Pokebattle.Battle.get_pokemon_info(pokemon_name)
+            end)
+            |> Map.update!(:pokemon2, fn pokemon_name ->
+              Pokebattle.Battle.get_pokemon_info(pokemon_name)
+            end)
+          else
+            battle
+          end
+
+          json conn, battle
+        end
     end
   end
 

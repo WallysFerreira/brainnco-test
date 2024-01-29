@@ -18,6 +18,12 @@ defmodule Pokebattle.Battle do
     |> validate_required([:pokemon1, :pokemon2, :winner])
   end
 
+  def validate_pokemon(pokemon_name) do
+    {:ok, response} = HTTPoison.get("https://pokeapi.co/api/v2/pokemon/#{pokemon_name}")
+
+    response.status_code == 200
+  end
+
   def get_winner(p1, p2) do
     [p1, p2]
     |> Enum.at(Enum.random(1..2) - 1)
