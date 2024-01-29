@@ -22,4 +22,10 @@ defmodule Pokebattle.Battle do
     [p1, p2]
     |> Enum.at(Enum.random(1..2) - 1)
   end
+
+  def get_pokemon_info(pokemon_name) do
+    {:ok, response} = HTTPoison.get("https://pokeapi.co/api/v2/pokemon/#{pokemon_name}")
+    {:ok, pokemon_info} = Jason.decode(response.body)
+    pokemon_info
+  end
 end

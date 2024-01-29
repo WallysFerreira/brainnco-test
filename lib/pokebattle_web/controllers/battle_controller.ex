@@ -20,6 +20,18 @@ defmodule PokebattleWeb.BattleController do
             winner: Pokebattle.Battle.get_winner(p1, p2)
           })
 
+        battle = if params |> Map.get("extra_info") do
+          battle
+          |> Map.update!(:pokemon1, fn pokemon_name ->
+            Pokebattle.Battle.get_pokemon_info(pokemon_name)
+          end)
+          |> Map.update!(:pokemon2, fn pokemon_name ->
+            Pokebattle.Battle.get_pokemon_info(pokemon_name)
+          end)
+        else
+          battle
+        end
+
         json conn, battle
     end
   end
