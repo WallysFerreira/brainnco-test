@@ -16,11 +16,11 @@ config :pokebattle, PokebattleWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
-    formats: [html: PokebattleWeb.ErrorHTML, json: PokebattleWeb.ErrorJSON],
+    formats: [json: PokebattleWeb.ErrorJSON],
     layout: false
   ],
   pubsub_server: Pokebattle.PubSub,
-  live_view: [signing_salt: "wsDGiefL"]
+  live_view: [signing_salt: "xnMan+x4"]
 
 # Configures the mailer
 #
@@ -39,18 +39,6 @@ config :esbuild,
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
-  ]
-
-# Configure tailwind (the version is required)
-config :tailwind,
-  version: "3.3.2",
-  default: [
-    args: ~w(
-      --config=tailwind.config.js
-      --input=css/app.css
-      --output=../priv/static/assets/app.css
-    ),
-    cd: Path.expand("../assets", __DIR__)
   ]
 
 # Configures Elixir's Logger

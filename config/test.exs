@@ -17,7 +17,7 @@ config :pokebattle, Pokebattle.Repo,
 # you can enable the server option below.
 config :pokebattle, PokebattleWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "XDJYp8RpC8pYSfNXfcpKhDzREpH1QuuonNfDdARbSIfQ1j1HBuOP8OvqWrIr39rK",
+  secret_key_base: "q8FKCvu1vg17ULDaml/T+RXgaJwSqJBPcD/f81StK7F6tI9Qc8Z6gSdXAhuuCShf",
   server: false
 
 # In test we don't send emails.

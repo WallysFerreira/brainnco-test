@@ -1,26 +1,15 @@
 defmodule PokebattleWeb.Router do
   use PokebattleWeb, :router
 
-  pipeline :browser do
-    plug :accepts, ["html"]
-    plug :put_root_layout, html: {PokebattleWeb.Layouts, :root}
-    plug :put_secure_browser_headers
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/battle", PokebattleWeb do
-    pipe_through :browser
+  scope "/api", PokebattleWeb do
+    pipe_through :api
 
-    post "/create", BattleController, :receive_battle
+    post "/battle", BattleController, :create
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", PokebattleWeb do
-  #   pipe_through :api
-  # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:pokebattle, :dev_routes) do
@@ -32,7 +21,7 @@ defmodule PokebattleWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/dev" do
-      pipe_through :browser
+      pipe_through [:fetch_session, :protect_from_forgery]
 
       live_dashboard "/dashboard", metrics: PokebattleWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
