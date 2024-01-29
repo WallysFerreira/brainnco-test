@@ -35,4 +35,16 @@ defmodule PokebattleWeb.BattleController do
         json conn, battle
     end
   end
+
+  def index(conn, _params) do
+    battles =
+      Pokebattle.Repo.all(Pokebattle.Battle)
+      |> Enum.map(fn battle ->
+        battle
+        |> Map.update!(:pokemon1, &(Pokebattle.Battle.get_pokemon_info(&1)))
+        |> Map.update!(:pokemon2, &(Pokebattle.Battle.get_pokemon_info(&1)))
+      end)
+
+    json conn, battles
+  end
 end

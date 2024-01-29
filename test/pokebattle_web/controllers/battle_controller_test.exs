@@ -46,4 +46,19 @@ defmodule PokebattleWeb.BattleControllerTest do
       assert Map.get(Map.get(resp_body, "pokemon2"), "name") == "bulbasaur"
     end
   end
+
+  test "GET /api/battle", %{conn: conn} do
+    conn = post(conn, ~p"/api/battle", %{
+      pokemon1: "ditto",
+      pokemon2: "bulbasaur",
+      extra_info: false
+    })
+
+    conn = get(conn, ~p"/api/battle")
+    {:ok, resp_body} = Jason.decode(conn.resp_body)
+
+    assert conn.status == 200
+    assert is_list(resp_body)
+    assert length(resp_body) > 0
+  end
 end
