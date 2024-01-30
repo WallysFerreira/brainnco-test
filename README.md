@@ -4,18 +4,104 @@
 
 ## Como usar
 
+A API atualmente permite criar uma batalha, listar todas batalhas e exibir uma batalha especifica utilizando o endpoint `api/battle`. Essas ações são feitas a partir dos verbos HTTP.
 
-
+- Uma requisição POST no endpoint **cria uma nova batalha**. No corpo da requisição deve haver o nome do primeiro pokemon (**pokemon1**: string), o nome do segundo pokemon (**pokemon2**: string), e se a API deve retornar informações adicionais sobre os pokemons (**extra_info**: boolean).
+- Uma requisição GET no endpoint **lista todas batalhas**. Não é necessário corpo na requisição.
+- Uma requisição GET no endpoint passando um id no fim do caminho **exibe a batalha com o id informado**. Não é necessário corpo na requisição.
 
 ### Exemplos de uso
 
-#### Criar batalha
+<details>
 
-#### Listar batalhas
+<summary>Criar batalha</summary>
+POST em `/api/battle`
 
-#### Consultar batalha
+Corpo da requisição:
+```json
+{
+  "pokemon1": "ditto",
+  "pokemon2": "bulbasaur",
+  "extra_info": false,
+}
+```
 
-## Como contribuir
+Corpo da resposta:
+```json
+{
+  "id": 1,
+  "pokemon1": "ditto",
+  "pokemon2": "bulbasaur",
+  "winner": "bulbasaur"
+}
+```
+</details>
+
+<details>
+<summary>Listar batalhas</summary>
+
+GET em `/api/battle`
+
+Corpo da resposta:
+```json
+[
+  {
+    "id": 1,
+    "pokemon1": {
+      "name": "ditto",
+      "stats": [...]
+      ...
+    },
+    "pokemon2": {
+      "name": "bulbasaur",
+      "stats": [...]
+      ...
+    },
+    "winner": "bulbasaur",
+  },
+  {
+    "id": 2,
+    "pokemon1": {
+      "name": "charmander",
+      "stats": [...],
+      ...
+    },
+    "pokemon2": {
+      "name": "gyarados",
+      "stats": [...],
+      ...
+    },
+    "winner": "charmander",
+  }
+]
+```
+</details>
+
+<details>
+<summary>Consultar batalha</summary>
+
+GET em `/api/battle/1`
+
+Corpo da resposta:
+```json
+{
+  "id": 1,
+  "pokemon1": {
+    "name": "ditto",
+    "stats": [...]
+    ...
+  },
+  "pokemon2": {
+    "name": "bulbasaur",
+    "stats": [...]
+    ...
+  },
+  "winner": "bulbasaur",
+}
+```
+</details>
+
+## Como funciona
 
 ### Iniciando a API
 
