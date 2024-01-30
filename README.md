@@ -2,6 +2,8 @@
 
 ## Sobre
 
+API REST criada com Phoenix para gerar batalhas entre pokemons. 
+
 ## Como usar
 
 A API atualmente permite criar uma batalha, listar todas batalhas e exibir uma batalha especifica utilizando o endpoint `api/battle`. Essas ações são feitas a partir dos verbos HTTP.
